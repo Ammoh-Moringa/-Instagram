@@ -1,32 +1,26 @@
-from django.shortcuts import redirect, render
-from django.http  import HttpResponse
-from django.contrib.auth import login, authenticate
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
-from django.contrib.auth.models import User
+from insta.forms import SignUpForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
-# from .forms import SignupForm, ImageForm, ProfileForm, CommentForm
-# from .emails import send_activation_email
-# from .tokens import account_activation_token
-# from .models import Image, Profile, Comments
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.views.generic import RedirectView
 
 
 def signup(request):
-    if request.user.is_authenticated():
-        return redirect('home')
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
     else:
-        if request.method == 'POST':
-            form = SignupForm(request.POST)
-            if form.is_valid():
-                user = form.save(commit=False)
-                user.is_active = False
-                user.save()
-                current_site = get_current_site(request)
-                to_email = form.cleaned_data.get('email')
-                return HttpResponse('Confirm your email address to complete registration')
-        else:
-            form = SignupForm()
-            return render(request, 'registration/signup.html',{'form':form})
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+
 
