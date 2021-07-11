@@ -15,5 +15,4 @@ def send_activation_email(user, current_site, receiver):
         'token':account_activation_token.make_token(user),
     })
 
-    email = EmailMessage(subject, message, to=[receiver])
-    email.send()
+    
