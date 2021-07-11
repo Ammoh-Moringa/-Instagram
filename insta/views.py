@@ -7,20 +7,28 @@ from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.views.generic import RedirectView
 
+@login_required(login_url='/')
+def home(request):
+    
+    return render(request, 'index.html')
 
 def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('index')
+    if request.user.is_authenticated():
+        return redirect('home')
     else:
-        form = SignUpForm()
-    return render(request, 'registration/registration_form.html', {'form': form})
+        if request.method == 'POST':
+            form = SignupForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                to_email = form.cleaned_data.get('email')
+                send_activation_email(user, current_site, to_email)
+                return HttpResponse('Confirm your email address to complete registration')
+        else:
+            form = SignupForm()
+            return render(request, 'registration/signup.html',{'form':form})
 
 
 
