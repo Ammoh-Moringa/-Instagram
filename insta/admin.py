@@ -1,4 +1,4 @@
-from insta.models import Comment, Post
+from insta.models import Comment, Image, Post
 from django.contrib import admin
 
 # Register your models here.
@@ -6,3 +6,5 @@ from django.contrib import admin
 admin.site.register(Post)
 
 admin.site.register(Comment)
+
+admin.site.register(Image)

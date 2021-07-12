@@ -20,9 +20,21 @@ class Post(models.Model):
     @property
     def number_of_comments(self):
         return Comment.objects.filter(post=self).count()
+
+    def get_all_images(cls):
+        images = Image.objects.all()
+        return images
+
     
 class Comment(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Image(models.Model):
+    # image_pic = models.ImageField(upload_to = 'p/', default='Image')
+    image_name = models.CharField(max_length = 50)
+    post_date = models.DateTimeField(auto_now=True)
+    likes = models.BooleanField(default=False)
