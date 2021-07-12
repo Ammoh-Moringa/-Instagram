@@ -13,14 +13,28 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .emails import send_activation_email
 from .tokens import account_activation_token
-
+@login_required(login_url='/accounts/login/')
 def home(request):
     images = Image.get_all_images()
     
     return render(request, 'index.html', {'images':images})
+# def signup(request):
+#     form = SignUpForm()
+#     return render(request, 'registration/signup.html', {'form':form})
+
 def signup(request):
-    form = SignUpForm()
-    return render(request, 'registration/signup.html',{'form':form})
+    if request.method=="POST":
+        form=SignUpForm(request.POST) 
+        if form.is_valid():
+           form.save()
+           username = form.cleaned_data.get('username')
+           user_password = form.cleaned_data.get('password1')
+           user = authenticate(username=username, password=user_password)
+           login(request, user)
+        return redirect('login')
+    else:
+        form= SignUpForm()
+    return render(request, 'registration/registration_form.html', {"form":form})        
   
 
 def search(request):
@@ -33,3 +47,7 @@ def search(request):
     else:
         message = 'Enter term to search'
         return render(request, 'search.html', {'message':message})
+
+
+
+

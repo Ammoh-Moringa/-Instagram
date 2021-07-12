@@ -7,10 +7,10 @@
             {% for img in images %}
             <div class="home-images">
                 <p class="home-text">
-                    <a style="font-family: 'Gochi Hand', cursive;" href="{% url 'profile' username=img.profile.username %}">{{img.profile.username}}</a>
+                    <a style="font-family: 'Gochi Hand', cursive;" href="{% url 'post' username=img.post.username %}">{{img.profile.username}}</a>
                 </p>
                 
-                <img src="{{img.photo.cdn_url}}" alt="Image">
+                <img src="{{post.image.url}}" alt="Image">
                 <ul class="list-inline home-text">
                     <li class="list-inline-item">
                         <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
@@ -21,7 +21,7 @@
                 </ul>
                 <ul class="list-inline home-list">
                     <li class="list-inline-item">
-                        <a href="{% url 'profile' username=img.profile.username %}">{{img.profile.username}}</a>
+                        <a href="{% url 'profile' username=img.profile.username %}">{{img.post.username}}</a>
                     </li>
                     <li class="list-inline-item">
                     {% autoescape on %}
