@@ -38,3 +38,8 @@ class Image(models.Model):
     image_name = models.CharField(max_length = 50)
     post_date = models.DateTimeField(auto_now=True)
     likes = models.BooleanField(default=False)
+
+    @classmethod
+    def get_all_images(cls):
+        images = Image.objects.all()
+        return images
