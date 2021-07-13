@@ -61,52 +61,52 @@ def profile(request, username):
 
     return render(request, 'profile/profile.html', {'title':title, 'profile':profile, 'profile_details':profile_details, 'images':images})
 
-# @login_required(login_url='/accounts/login')
-# def upload_image(request):
-#     if request.method == 'POST':
-#         form = ImageForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             upload = form.save(commit=False)
-#             upload.profile = request.user
-#             # print(f'image is {upload.image}')
-#             upload.save()
-#             return redirect('profile', username=request.user)
-#     else:
-#         form = ImageForm()
+@login_required(login_url='/accounts/login')
+def upload_image(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            upload = form.save(commit=False)
+            upload.profile = request.user
+            # print(f'image is {upload.image}')
+            upload.save()
+            return redirect('profile', username=request.user)
+    else:
+        form = ImageForm()
     
-#     return render(request, 'profile/upload_image.html', {'form':form})
+    return render(request, 'profile/upload_image.html', {'form':form})
 
-# @login_required(login_url='/accounts/login')
-# def edit_profile(request):
-#     if request.method == 'POST':
-#         form = ProfileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             edit = form.save(commit=False)
-#             edit.user = request.user
-#             edit.save()
-#             return redirect('profile.html')
-#     else:
-#         form = ProfileForm()
+@login_required(login_url='/accounts/login')
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            edit = form.save(commit=False)
+            edit.user = request.user
+            edit.save()
+            return redirect('profile.html')
+    else:
+        form = ProfileForm()
 
-#     return render(request, 'profile/edit_profile.html', {'form':form})
+    return render(request, 'profile/edit_profile.html', {'form':form})
 
-# @login_required(login_url='/accounts/login')
-# def single_image(request, image_id):
-#     image = Image.get_image_id(image_id)
-#     comments = Comment.get_comments_by_images(image_id)
+@login_required(login_url='/accounts/login')
+def single_image(request, image_id):
+    image = Image.get_image_id(image_id)
+    comments = Comment.get_comments_by_images(image_id)
 
-#     if request.method == 'POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.image = image
-#             comment.user = request.user
-#             comment.save()
-#             return redirect('single_image', image_id=image_id)
-#     else:
-#         form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image = image
+            comment.user = request.user
+            comment.save()
+            return redirect('single_image', image_id=image_id)
+    else:
+        form = CommentForm()
         
-#     return render(request, 'image.html', {'image':image, 'form':form, 'comments':comments})
+    return render(request, 'image.html', {'image':image, 'form':form, 'comments':comments})
 
 def search(request):
     if 'search' in request.GET and request.GET['search']:
@@ -118,6 +118,19 @@ def search(request):
     else:
         message = 'Enter term to search'
         return render(request, 'search.html', {'message':message})
+
+def new_image(request):
+    current_user =request.user
+    if request.method == 'POST':
+        form = ImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            image = form.save(commit = False)
+            image.profile = current_user
+            image.save()
+            return redirect("index")
+    else:
+        form = ImageForm()
+    return render (request, 'new_image.html', {"form":form})
 
 
 

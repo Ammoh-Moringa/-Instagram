@@ -1,28 +1,59 @@
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navMain">
-    <div class="container">
-        <a class="smooth-scroll" href="/"><i class="fa fa-instagram fa-3x" > | </i></a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+<div class="navbar fixed-top bg-white">
+    <nav class="container">
+        <a class="smooth-scroll" href="/"><i class="fa fa-instagram fa-3x"> | </i></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+            aria-label="Toggle navigation">
             <i class="fa fa-bars"></i>
         </button>
-        <p style="font-family: 'Billabong', cursive; font-size: 30px;
-        ">Instagram</p>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 nav-search">
-                        <form class="form-inline my-2 my-lg-0" role="search" action="{% url 'search' %}">
-                            <input class="form-control my-2 my-sm-0 search-input" name="search" type="search" placeholder="Search Users" aria-label="Search">
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav" href="{% url 'profile' username=user %}">{{user}}</a>
-                </li>
+        <p style="font-family: 'Billabong', cursive; font-size: 30px; text-align: center;
+        ">insta</p>
+        <span class="navbar-brand mb-0 h1">
+            <a href="/">
+                <div id="brand" class="instaicon logo d-none d-sm-block"></div>
+                <div class="instaicon mainicon d-block d-sm-none"></div>
+            </a>
+        </span>
+        <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search' %}">
+            <input name="search_user" autocomplete="off" id="searching" class="form-control d-none d-md-block"
+                placeholder="Search">
+            <i class="spinner "></i>
+        </form>
+        {% if user.is_authenticated %}
+        <ul>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                      <span class="caret"></span>
+                  </a>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="{%url 'home'%}">Home</a>
+              </li>
+              <li>
+                <a href="{%url 'new-image'%}">Create Image</a>
+              </li>
+              <li>
+                <a href="/accounts/password/change">Change Password</a>
+              </li>
+              <li>
+                <a href="accounts/logout">Logout</a>
+              </li>
+              <li>
+                <a href="{% url 'edit_profile' %}">Edit Profile</a>
+              </li>
             </ul>
-        </div>
-    </div>
-</nav>
+          </li>
+        </ul>
+        {% else %}
+        <li>
+          <a class='btn btn-default' href="/accounts/login">Login</a>
+          <a class='btn btn-default' href="/accounts/register">Sign Up</a>
+        </li>
+        {% endif %}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav" href="{% url 'profile' username=user %}">{{user}}</a>
+            </li>
+        </ul>
+    </nav>
+</div>
