@@ -20,40 +20,32 @@
             <i class="spinner "></i>
         </form>
         {% if user.is_authenticated %}
-        <ul>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                      <span class="caret"></span>
-                  </a>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="{%url 'home'%}">Home</a>
-              </li>
-              <li>
-                <a href="{%url 'new-image'%}">Create Image</a>
-              </li>
-              <li>
-                <a href="/accounts/password/change">Change Password</a>
-              </li>
-              <li>
-                <a href="accounts/logout">Logout</a>
-              </li>
-              <li>
-                <a href="{% url 'edit_profile' %}">Edit Profile</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+
+        <div class="btn-group" style="margin-right: 10px;">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Account
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{%url 'home'%}">Home</a>
+                <a class="dropdown-item" href="{%url 'new-image'%}">Create Image</a>
+                <a class="dropdown-item" href="/accounts/password/change">Change Password</a>
+                <a class="dropdown-item" href="accounts/logout">Logout</a>
+                <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit profile</a>
+                <div class="dropdown-divider"></div>
+            </div>
+        </div>
         {% else %}
         <li>
-          <a class='btn btn-default' href="/accounts/login">Login</a>
-          <a class='btn btn-default' href="/accounts/register">Sign Up</a>
+            <a class='btn btn-default' href="/accounts/login">Login</a>
+            <a class='btn btn-default' href="/accounts/register">Sign Up</a>
         </li>
         {% endif %}
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav" href="{% url 'profile' username=user %}">{{user}}</a>
+                <h6>{{user}}<h6>
             </li>
         </ul>
-    </nav>
+</div>
+</nav>
 </div>

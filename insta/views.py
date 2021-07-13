@@ -127,7 +127,7 @@ def new_image(request):
             image = form.save(commit = False)
             image.profile = current_user
             image.save()
-            return redirect("index")
+            return redirect("home")
     else:
         form = ImageForm()
     return render (request, 'new_image.html', {"form":form})
