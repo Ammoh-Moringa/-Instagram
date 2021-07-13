@@ -34,7 +34,7 @@ class Comment(models.Model):
 
 
 class Image(models.Model):
-    # image_pic = models.ImageField(upload_to = 'p/', default='Image')
+    image_pic = models.ImageField(upload_to='posts/')
     image_name = models.CharField(max_length = 50)
     post_date = models.DateTimeField(auto_now=True)
     likes = models.BooleanField(default=False)
@@ -53,6 +53,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
 
 
     def save_profile(self):

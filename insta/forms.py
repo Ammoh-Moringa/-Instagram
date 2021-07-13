@@ -1,44 +1,27 @@
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import  Post, Comment
+from .models import Image, Profile, Comment
 
-
-class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+class SignupForm(UserCreationForm):
+    email = forms.EmailField(max_length=200, help_text = 'Required')
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-
-class UpdateUserForm(forms.ModelForm):
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-
+class ImageForm(forms.ModelForm):
+   
     class Meta:
-        model = User
-        fields = ('username', 'email')
+        model = Image
+        exclude = ['likes', 'post_date', 'profile']
+    
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user']
 
-
-# class UpdateUserProfileForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ['name', 'location', 'profile_picture', 'bio']
-
-
-# class PostForm(forms.ModelForm):
-#     class Meta:
-#         model = Post
-#         fields = ('image', 'caption')
-
-
-# class CommentForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['comment'].widget = forms.TextInput()
-#         self.fields['comment'].widget.attrs['placeholder'] = 'Add a comment...'
-
-#     class Meta:
-#         model = Comment
-#         fields = ('comment',)
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['image', 'user']

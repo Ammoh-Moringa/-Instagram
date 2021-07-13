@@ -7,10 +7,10 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns=[
-    url(r'^$',views.home, name='home'),
-    url('register/',views.signup, name='signup'),
-    url('login/',auth_views.LoginView.as_view(), name='login'),
-    url('logout/',auth_views.LogoutView.as_view(),name='logout'),
+    url(r'^$', views.home, name='home'),
+    url(r'^$',views.signup, name='signup'),
+    url(r'^$',views.search, name='search'),
+    url(r'^user/(?P<username>\w+)', views.profile, name='profile'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
