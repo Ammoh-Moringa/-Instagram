@@ -52,14 +52,14 @@ def signup(request):
 def profile(request, username):
     profile = User.objects.get(username=username)
     # print(profile.id)
-    try:
-        profile_details = Profile.get_by_id(profile.id)
-    except:
-        profile_details = Profile.filter_by_id(profile.id)
-    images = Image.get_profile_images(profile.id)
-    title = f'@{profile.username} Instagram photos and videos'
+    # try:
+    #     profile_details = Profile.get_by_id(profile.id)
+    # except:
+    #     profile_details = Profile.filter_by_id(profile.id)
+    # images = Image.get_profile_images(profile.id)
+    # title = f'@{profile.username} Instagram photos and videos'
 
-    return render(request, 'profile/profile.html', {'title':title, 'profile':profile, 'profile_details':profile_details, 'images':images})
+    return render(request, 'profile/profile.html', { 'profile':profile})
 
 @login_required(login_url='/accounts/login')
 def upload_image(request):
@@ -90,23 +90,6 @@ def edit_profile(request):
 
     return render(request, 'profile/edit_profile.html', {'form':form})
 
-@login_required(login_url='/accounts/login')
-def single_image(request, image_id):
-    image = Image.get_image_id(image_id)
-    comments = Comment.get_comments_by_images(image_id)
-
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.image = image
-            comment.user = request.user
-            comment.save()
-            return redirect('single_image', image_id=image_id)
-    else:
-        form = CommentForm()
-        
-    return render(request, 'image.html', {'image':image, 'form':form, 'comments':comments})
 
 def search(request):
     if 'search' in request.GET and request.GET['search']:
