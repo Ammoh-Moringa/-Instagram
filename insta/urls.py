@@ -14,6 +14,7 @@ urlpatterns=[
     url(r'^upload/$', views.upload_image, name='upload_image'),
     url(r'^accounts/edit/',views.edit_profile, name='edit_profile'),
     url(r'^new/image$', views.new_image, name='new-image'),
+    url('logout/',auth_views.LogoutView.as_view(),name='logout'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
